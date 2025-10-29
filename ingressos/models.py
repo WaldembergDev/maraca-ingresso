@@ -4,11 +4,16 @@ from clientes.models import Cliente
 
 # Create your models here.
 class Ingresso(models.Model):
+    class TipoIngresso(models.TextChoices):
+        JOGO = 'JOGO', 'Jogo'
+        SHOW = 'SHOW', 'Show'
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
         editable=False
     )
+    tipo = models.CharField(max_length=5, choices=TipoIngresso.choices, default=TipoIngresso.JOGO)
+    thumbnail = models.ImageField()
     titulo = models.CharField(max_length=120, verbose_name='Título')
     local = models.CharField(max_length=120, verbose_name='Local do ingresso')
     descricao = models.CharField(max_length=255, verbose_name='Descrição do Ingresso')
