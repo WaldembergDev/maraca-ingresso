@@ -4,8 +4,8 @@ from ingressos.models import Ingresso
 # Create your views here.
 def home(request):
     if request.method == 'GET':
-        ingressos = Ingresso.objects.filter()
+        ingressos = Ingresso.objects.all()
         context = {
-            'igressos': ingressos
+            'ingressos': ingressos
         }
         return render(request, 'core/home.html', context)
