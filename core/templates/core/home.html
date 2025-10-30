@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Página Inicial{% endblock %}
 {% block content %}
-    
+    <h1 class="display-4 text-center">Próximos Eventos</h1>
+    <section>
+        <div class="card" style="width: 18rem;">
+            <img src="{% static 'img/flamengoxfluminense.avif' %}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Flamengo X Fluminense </h5>
+              <p class="card-text"> <i class="bi bi-calendar-event"></i> 01/10/2025</p>
+              <p class="card-text"> <i class="bi bi-three-dots"></i> Jogo</p>
+              <p class="card-text"> <i class="bi bi-box-seam"></i></i> 2 ingresso(s) restante(s)</p>
+              <a href="#" class="btn btn-primary">Comprar | R$ 60,00</a>
+            </div>
+          </div>
+    </section>
 {% endblock %}

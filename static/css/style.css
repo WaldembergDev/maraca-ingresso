@@ -1,0 +1,8 @@
+/* CSS do template base.html */
+#header-logo{
+    width: 120px;
+}
+
+header {
+    border-bottom: 2px solid #000000;
+}
