@@ -36,3 +36,8 @@ def comprar_ingresso(request, id_ingresso):
 
 def criar_ingresso(request):
     pass
+
+def visualizar_ingresso(request, id_ingresso):
+    ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
+    if request.method == 'GET':
+        pass
