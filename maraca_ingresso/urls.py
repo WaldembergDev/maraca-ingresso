@@ -22,10 +22,11 @@ from django.conf.urls.static import static
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('', lambda request: redirect('home', name='home')),
+    path('', lambda request: redirect('home')),
     path('admin/', admin.site.urls),
     path('ingressos/', include('ingressos.urls')),
-    path('core/', include('core.urls'))
+    path('core/', include('core.urls')),
+    path("accounts/", include("django.contrib.auth.urls"))
 ]
 
 if settings.DEBUG:

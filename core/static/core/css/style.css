@@ -3,3 +3,9 @@
   height: 200px; 
   object-fit: cover; 
 }
+
+/* configurando imagem da tela de login */
+.image-maraca{
+  max-width: 100%;
+  
+}

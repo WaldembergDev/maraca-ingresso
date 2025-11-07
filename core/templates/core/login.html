@@ -1,5 +1,28 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Login{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+{% endblock %}
 {% block content %}
-    <h1>Página de login</h1>
+    <div class='d-flex border mt-5'>
+        <div>
+            <img class="image-maraca" src="{% static 'img/maracana.webp' %}" alt="Imagem do maracanã">
+        </div>
+        <form class="d-flex flex-column justify-content-center p-5 w-50">
+            <h1 class='text-center'>Login</h1>
+            <div class="mb-3">
+              <label for="inputEmail" class="form-label">E-mail</label>
+              <input type="email" class="form-control" name="inputEmail" id="inputEmail" aria-describedby="emailHelp" placeholder="example@gmail.com">
+            </div>
+            <div class="mb-3">
+              <label for="inputPassword" class="form-label">Senha</label>
+              <input type="password" class="form-control" name="inputPassword" id="inputPassword">
+            </div>
+            <button type="submit" class="btn btn-primary">Logar</button>
+            <div class="mt-3">
+                <p>Não tem uma conta? <a href="#">Inscreva-se aqui</a>.</p>
+            </div>
+          </form>
+    </div>
 {% endblock %}
