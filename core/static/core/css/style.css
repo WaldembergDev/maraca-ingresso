@@ -7,5 +7,5 @@
 /* configurando imagem da tela de login */
 .image-maraca{
   max-width: 100%;
-  
+  object-fit: cover;  
 }
