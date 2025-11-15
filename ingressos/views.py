@@ -1,13 +1,16 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db import transaction, models
 from .models import Ingresso, HistoricoCompra
 from django.shortcuts import get_object_or_404
+from .forms import CompraForm, CadastroIngressoForm
+from django.contrib import messages
 
 
 # Create your views here.
 def comprar_ingresso(request, id_ingresso):
     if request.method == 'POST':
-        form = VendaForm(request.POST)
+        form = CompraForm(request.POST)
         if form.is_valid():
             ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
             try:
@@ -39,5 +42,22 @@ def criar_ingresso(request):
 
 def visualizar_ingresso(request, id_ingresso):
     ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
-    if request.method == 'GET':
+    if request.method == 'POST':
         pass
+    else:
+        context = {'ingresso': ingresso}
+        return render(request, '')
+
+def cadastrar_ingresso(request):
+    if request.method == 'POST':
+        form = CadastroIngressoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ingresso cadastrado com sucesso!')
+            return redirect('cadastrar_ingresso')
+    else:
+        form = CadastroIngressoForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'ingressos/cadastrar_ingresso.html', context=context)
