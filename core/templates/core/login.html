@@ -28,7 +28,7 @@
               </div>
             <button type="submit" class="btn btn-primary">Logar</button>
             <div class="mt-3">
-                <p>Não tem uma conta? <a href="#">Inscreva-se aqui</a>.</p>
+                <p>Não tem uma conta? <a href="{% url 'criar_conta_cliente' %}">Inscreva-se aqui</a>.</p>
             </div>
             {% if messages %}
                 <ul class="messages">

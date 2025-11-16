@@ -9,11 +9,11 @@ from django.contrib import messages
 
 # Create your views here.
 def comprar_ingresso(request, id_ingresso):
+    ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
     if request.method == 'POST':
-        form = CompraForm(request.POST)
+        form = CompraForm(request.POST, ingresso=ingresso)
         if form.is_valid():
-            ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
-            try:
+            try:                
                 with transaction.atomic():
                     quantidade = form.cleaned_data['quantidade']
                     ingresso_travado = Ingresso.objects.select_for_update().get(pk=id_ingresso)
@@ -32,10 +32,19 @@ def comprar_ingresso(request, id_ingresso):
                         valor_pago=ingresso_travado.preco,
                         quantidade=quantidade
                         )
-                    return redirect('')
+                    messages.success(request, 'Obrigado! Seu ingresso foi comprado com sucesso! Aguarde o contato do administrador')
+                    return redirect('home')
             except Exception as e:
-                return render(request, 'erro.html', {'mensagem': str(e)})
-    return render(request, 'venda_form.html', {'form': form, 'ingresso': ingresso})
+                messages.error(request, e)
+                return redirect('comprar_ingresso', ingresso.id)
+                # return render(request, 'erro.html', {'mensagem': str(e)})
+    else:
+        form = CompraForm()
+    context = {
+        'form': form,
+        'ingresso': ingresso
+    }
+    return render(request, 'ingressos/comprar_ingresso.html', context=context)
 
 def criar_ingresso(request):
     pass
@@ -46,7 +55,7 @@ def visualizar_ingresso(request, id_ingresso):
         pass
     else:
         context = {'ingresso': ingresso}
-        return render(request, '')
+    return render(request, '')
 
 def cadastrar_ingresso(request):
     if request.method == 'POST':

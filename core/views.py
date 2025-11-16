@@ -16,12 +16,15 @@ def home(request):
         return render(request, 'core/home.html', context)
 
 def login(request):
+    # verificando se o usuário está logado
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         form = EmailAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             auth_login(request, user)
-            return HttpResponse('logado com sucesso!')
+            return redirect('home')
     else:
         form = EmailAuthenticationForm()
     context = {
@@ -29,6 +32,5 @@ def login(request):
     }
     return render(request, 'core/login.html', context=context)
 
-def logout(request):
-    auth_logout(request)
-    return HttpResponse('Usuário deslogado com sucesso!')
+
+    

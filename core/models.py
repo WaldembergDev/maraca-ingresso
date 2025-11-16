@@ -20,6 +20,12 @@ class MeuUserManager(BaseUserManager):
         return user
 
 class CustomUser(AbstractUser):
+    username = models.CharField(
+        max_length=150, 
+        unique=True, 
+        blank=True,
+        null=True   
+    )
     email = models.EmailField(
         verbose_name='Endereço de E-mail',
         max_length=255,

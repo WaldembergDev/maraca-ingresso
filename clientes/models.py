@@ -11,8 +11,8 @@ class Cliente(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     telefone = models.CharField(max_length=20)
     data_nascimento = models.DateField()
-    rg = models.CharField(max_length=11)
-    cpf = models.CharField(max_length=11, unique=True)
+    rg = models.CharField(max_length=13, verbose_name='RG')
+    cpf = models.CharField(max_length=14, unique=True, verbose_name='CPF')
     sexo = models.CharField(max_length=2, choices=SexoEnum.choices)
     usuario = models.OneToOneField(CustomUser, on_delete=models.PROTECT)
 

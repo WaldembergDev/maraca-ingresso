@@ -2,7 +2,7 @@ from django import forms
 from .models import Ingresso
 
 class CompraForm(forms.Form):
-    quantidade = forms.IntegerField(min_value=1)
+    quantidade = forms.IntegerField(min_value=1, widget=forms.NumberInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         self.ingresso = kwargs.pop('ingresso', None)
