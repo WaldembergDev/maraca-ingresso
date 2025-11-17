@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.db import transaction, models
+
+from core.models import CustomUser
 from .models import Ingresso, HistoricoCompra
 from django.shortcuts import get_object_or_404
 from .forms import CompraForm, CadastroIngressoForm
@@ -73,3 +75,12 @@ def cadastrar_ingresso(request):
         'form': form
     }
     return render(request, 'ingressos/cadastrar_ingresso.html', context=context)
+
+def exibir_meus_ingressos(request):
+    usuario = request.user
+    cliente = Cliente.objects.get(usuario=usuario)
+    compras = HistoricoCompra.objects.filter(cliente=cliente)
+    context = {
+        'compras': compras
+    }
+    return render(request, 'ingressos/meus_ingressos.html', context=context)
