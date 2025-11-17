@@ -21,9 +21,6 @@ class CustomUserForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
-        labels = {
-            'last_name': 'Sobrenome'
-        }
     
     # def __init__(self, *args, **kwargs):
     #     self.custom_user = kwargs.pop('custom_user', None)

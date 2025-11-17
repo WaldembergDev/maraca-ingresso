@@ -20,6 +20,8 @@ class MeuUserManager(BaseUserManager):
         return user
 
 class CustomUser(AbstractUser):
+    first_name = models.CharField(max_length=120, verbose_name='Nome')
+    last_name = models.CharField(max_length=120, verbose_name='Sobrenome')
     username = models.CharField(
         max_length=150, 
         unique=True, 
