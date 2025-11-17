@@ -5,7 +5,7 @@ from .models import Ingresso, HistoricoCompra
 from django.shortcuts import get_object_or_404
 from .forms import CompraForm, CadastroIngressoForm
 from django.contrib import messages
-
+from clientes.models import Cliente
 
 # Create your views here.
 def comprar_ingresso(request, id_ingresso):
@@ -22,7 +22,10 @@ def comprar_ingresso(request, id_ingresso):
                     ingresso_travado.estoque_disponivel -= quantidade
                     ingresso_travado.save()
 
-                    cliente = request.user
+                    # obtendo o usuário logado
+                    usuario = request.user
+                    # obtendo o perfil de cliente do usuário logado
+                    cliente = Cliente.objects.get(usuario=usuario)
         
                     HistoricoCompra.objects.create(
                         cliente=cliente,
