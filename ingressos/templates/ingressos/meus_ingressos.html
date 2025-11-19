@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Meus Ingressos{% endblock %}
 {% block content %}
     <h1 class="text-center">Meus ingressos</h1>
@@ -17,29 +18,40 @@
             <td>{{ compra.data_compra }}</td>
             <td>{{ compra.titulo }}</td>
             <td>{{ compra.ingresso.data_horario }}</td>
-            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-{{ compra.id }}">Ver detalhes</button>
+            <td><button type="button" id="botaoAbrirModal" class="btn btn-primary btn-ingresso" data-id="{{ compra.id }}">Ver detalhes</button>
         </tr>
-        <!-- Modal -->
-        <div class="modal fade" id="modal-{{ compra.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                ...
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-            </div>
-        </div>
             {% empty %}
-            <p>Você ainda não realizou nenhuma compra</p>
+            <tr>
+                <td>Ainda não existem compras registradas em seu nome.</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Dados da Compra</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <p>Titulo: <span id="tituloId"></span></p>
+                    <p>Local: <span id="localId"></span></p>
+                    <p>Data da Compra: <span id="dataCompraId"></span></p>
+                    <p>Valor pago: <span id="valorPagoId"></span></p>
+                    <p>Quantidade: <span id="quantidadeId"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'ingressos/js/script.js' %}"></script>
 {% endblock %}

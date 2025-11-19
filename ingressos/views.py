@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction, models
 
 from core.models import CustomUser
@@ -84,3 +84,14 @@ def exibir_meus_ingressos(request):
         'compras': compras
     }
     return render(request, 'ingressos/meus_ingressos.html', context=context)
+
+def json_detalhes_compra(request, id_historico):
+    detalhes = get_object_or_404(HistoricoCompra, id=id_historico)
+    dados = {
+        'titulo': detalhes.titulo,
+        'local': detalhes.local,
+        'data_compra': detalhes.data_compra,
+        'valor_pago': detalhes.valor_pago,
+        'quantidade': detalhes.quantidade
+    }
+    return JsonResponse(dados)
