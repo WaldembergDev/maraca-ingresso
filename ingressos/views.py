@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction, models
+from django.urls import reverse
 
 from core.models import CustomUser
 from .models import Ingresso, HistoricoCompra
@@ -12,6 +13,9 @@ from clientes.models import Cliente
 # Create your views here.
 def comprar_ingresso(request, id_ingresso):
     ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
+    if not request.user.is_authenticated:
+        url_final = f"{reverse('core_login')}?next={request.path}"
+        return redirect(url_final)
     if request.method == 'POST':
         form = CompraForm(request.POST, ingresso=ingresso)
         if form.is_valid():

@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Acesso inicial{% endblock %}
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
+{% endblock %}
 {% block content %}
-    <h1 class='text-center'>Digite a senha fornecida pelo administrador</h1>
-    <form action="{% url 'acesso_inicial' %}" method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="{{ form_acesso.senha.id_for_label }}" class="form-label">Senha fornecida pelo administrador</label>
-            {{ form_acesso.senha }}
-        </div>
-        <button type="submit" class="btn btn-primary">Entrar da plataforma</button>
-    </form>
+        <div class="d-flex flex-column flex-grow-1 align-items-center justify-content-center">
+        <form action="{% url 'acesso_inicial' %}" method="POST" class="w-50 d-flex flex-column border rounded border-3 shadow-sm p-5">
+            {% csrf_token %}
+            <i class="text-center bi bi-lock-fill cadeado"></i>
+            <div class="mb-3">
+                <label for="{{ form_acesso.senha.id_for_label }}" class="form-label">Senha fornecida pelo administrador</label>
+                {{ form_acesso.senha }}
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar da plataforma</button>
+        </form>
+        <div>
 {% endblock %}

@@ -47,15 +47,18 @@ def login(request):
     if request.method == 'POST':
         form = EmailAuthenticationForm(request, data=request.POST)
         if form.is_valid():
+            proxima_pagina = request.POST.get('next')
             user = form.get_user()
             auth_login(request, user)
+            # verificando se existe página a ser redirecionada
+            if proxima_pagina:
+                return redirect(proxima_pagina)
             return redirect('home')
     else:
         form = EmailAuthenticationForm()
+        next = request.GET.get('next')
     context = {
-        'form': form
+        'form': form,
+        'next': next
     }
     return render(request, 'core/login.html', context=context)
-
-
-    
