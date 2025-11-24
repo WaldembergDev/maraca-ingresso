@@ -34,6 +34,12 @@
           </form>
         <div>
         {% endif %}
+        {% if not user.is_authenticated %}
+          <form class="d-flex" method="POST" action="{% url 'core_login' %}">
+            {% csrf_token %}
+            <button class="btn btn-outline-success" type="submit">Logar/Inscrever-se</button>
+          </form>
+        {% endif %}
       </div>
     </nav>
     <!-- Main -->
