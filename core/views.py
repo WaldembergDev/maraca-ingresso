@@ -41,6 +41,7 @@ def home(request):
         return render(request, 'core/home.html', context)
 
 def login(request):
+    next = None
     # verificando se o usuário está logado
     if request.user.is_authenticated:
         return redirect('home')
@@ -48,6 +49,7 @@ def login(request):
         form = EmailAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             proxima_pagina = request.POST.get('next')
+            print(proxima_pagina)
             user = form.get_user()
             auth_login(request, user)
             # verificando se existe página a ser redirecionada
