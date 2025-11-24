@@ -11,6 +11,8 @@ from .forms import CompraForm, CadastroIngressoForm
 from django.contrib import messages
 from clientes.models import Cliente
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def comprar_ingresso(request, id_ingresso):
     ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
@@ -58,8 +60,6 @@ def comprar_ingresso(request, id_ingresso):
     }
     return render(request, 'ingressos/comprar_ingresso.html', context=context)
 
-def criar_ingresso(request):
-    pass
 
 def visualizar_ingresso(request, id_ingresso):
     ingresso = get_object_or_404(Ingresso, pk=id_ingresso)
@@ -69,6 +69,7 @@ def visualizar_ingresso(request, id_ingresso):
         context = {'ingresso': ingresso}
     return render(request, '')
 
+@login_required
 def cadastrar_ingresso(request):
     if request.method == 'POST':
         form = CadastroIngressoForm(request.POST, request.FILES)
@@ -83,6 +84,7 @@ def cadastrar_ingresso(request):
     }
     return render(request, 'ingressos/cadastrar_ingresso.html', context=context)
 
+@login_required
 def exibir_todos_ingressos_comprados(request):
     ingressos_comprados = HistoricoCompra.objects.all()
     context = {
@@ -90,7 +92,7 @@ def exibir_todos_ingressos_comprados(request):
     }
     return render(request, 'ingressos/todos_ingressos_comprados.html', context=context)
 
-
+@login_required
 def exibir_meus_ingressos(request):
     if request.user.is_admin:
             messages.error(request, 'Administrador, faz sentido você visualizar seus ingressos comprados?')
@@ -103,6 +105,7 @@ def exibir_meus_ingressos(request):
     }
     return render(request, 'ingressos/meus_ingressos.html', context=context)
 
+@login_required
 def json_detalhes_compra(request, id_historico):
     detalhes = get_object_or_404(HistoricoCompra, id=id_historico)
     dados = {
