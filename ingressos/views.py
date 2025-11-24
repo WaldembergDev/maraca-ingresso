@@ -1,3 +1,4 @@
+from email import message
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction, models
@@ -19,6 +20,9 @@ def comprar_ingresso(request, id_ingresso):
     if request.method == 'POST':
         form = CompraForm(request.POST, ingresso=ingresso)
         if form.is_valid():
+            if request.user.is_admin:
+                messages.error(request, 'Administrador, faz sentido você comprar ingresso?')
+                return redirect('comprar_ingresso', ingresso.id)
             try:                
                 with transaction.atomic():
                     quantidade = form.cleaned_data['quantidade']
@@ -46,7 +50,6 @@ def comprar_ingresso(request, id_ingresso):
             except Exception as e:
                 messages.error(request, e)
                 return redirect('comprar_ingresso', ingresso.id)
-                # return render(request, 'erro.html', {'mensagem': str(e)})
     else:
         form = CompraForm()
     context = {
@@ -80,7 +83,18 @@ def cadastrar_ingresso(request):
     }
     return render(request, 'ingressos/cadastrar_ingresso.html', context=context)
 
+def exibir_todos_ingressos_comprados(request):
+    ingressos_comprados = HistoricoCompra.objects.all()
+    context = {
+        'ingressos_comprados': ingressos_comprados
+    }
+    return render(request, 'ingressos/todos_ingressos_comprados.html', context=context)
+
+
 def exibir_meus_ingressos(request):
+    if request.user.is_admin:
+            messages.error(request, 'Administrador, faz sentido você visualizar seus ingressos comprados?')
+            return redirect('home')
     usuario = request.user
     cliente = Cliente.objects.get(usuario=usuario)
     compras = HistoricoCompra.objects.filter(cliente=cliente)

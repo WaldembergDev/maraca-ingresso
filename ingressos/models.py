@@ -40,4 +40,4 @@ class HistoricoCompra(models.Model):
     quantidade = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return f'{self.cliente.first_name}/{self.ingresso.titulo}'
+        return f'{self.cliente.username}/{self.ingresso.titulo}'

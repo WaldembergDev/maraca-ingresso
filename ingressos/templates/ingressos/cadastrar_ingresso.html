@@ -2,7 +2,7 @@
     {% block title %}Cadastrar Evento{% endblock %}
     {% block content %}
         <div class="d-flex justify-content-center">
-            <form class="border p-5 rounded w-50 mt-5 shadow-lg" method='POST' action="{% url 'cadastrar_ingresso' %}" enctype="multipart/form-data">
+            <form class="border p-5 rounded w-50 mt-4 shadow-lg" method='POST' action="{% url 'cadastrar_ingresso' %}" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h1 class='text-center'>Cadastrar Evento</h1>
                 {{ form.as_p }}
