@@ -5,15 +5,15 @@
     <link rel="stylesheet" href="{% static 'ingressos/css/style.css' %}">
 {% endblock %}
 {% block content %}
+    <!-- Exibindo a mensagem de erro do formulário -->
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger mt-3" role="alert">
+            {{ form.non_field_errors  }}
+        </div>
+    {% endif %}
     <div class="d-flex justify-content-center">
         <form method="POST" class="w-100 d-flex align-items-center border rounded p-3 shadow-lg " action="{% url 'comprar_ingresso' id_ingresso=ingresso.id %}" novalidate>
             {% csrf_token %}
-            <!-- Exibindo a mensagem de erro -->
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ form.non_field_errors  }}
-                </div>
-            {% endif %}
             <div class="w-50">
                 <img class="img-ingresso" src="{{ ingresso.thumbnail.url }}">
             </div>
@@ -29,7 +29,5 @@
                 <button type="submit" class="btn btn-primary align-self-center">Comprar Agora</button>
             </div>
         </form>
-        
     </div>
-      
 {% endblock %}
