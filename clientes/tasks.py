@@ -11,7 +11,7 @@ def enviar_email_confirmacao_cadastro(destinatario_email, nome_usuario):
     }
 
     # 2. Renderizar o template HTML para uma string
-    html_content = render_to_string('emails/meu_email.html', context)
+    html_content = render_to_string('clientes/emails/email_registro.html', context)
     
     # 3. Gerar a versão em texto simples (opcional)
     text_content = strip_tags(html_content) 
