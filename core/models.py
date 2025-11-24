@@ -56,6 +56,7 @@ class AcessoGeral(models.Model):
 
     def save(self, *args, **kwargs):
         self.senha = make_password(self.senha)
+        Session.objects.all().delete()
         super().save(*args, **kwargs)
 
     def verificar_senha(self, valor):
