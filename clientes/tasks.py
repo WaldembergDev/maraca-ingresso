@@ -2,9 +2,11 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from celery import shared_task
 
 
-def enviar_email_confirmacao_cadastro(destinatario_email, nome_usuario):
+@shared_task(bind=True)
+def enviar_email_confirmacao_cadastro(self, destinatario_email, nome_usuario):
     # 1. Definir o contexto para o template
     context = {
         'nome_usuario': nome_usuario,
