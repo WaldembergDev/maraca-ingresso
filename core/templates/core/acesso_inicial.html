@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Acesso inicial{% endblock %}
+{% block content %}
+    <h1 class='text-center'>Digite a senha fornecida pelo administrador</h1>
+    <form action="{% url 'acesso_inicial' %}" method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="{{ form_acesso.senha.id_for_label }}" class="form-label">Senha fornecida pelo administrador</label>
+            {{ form_acesso.senha }}
+        </div>
+        <button type="submit" class="btn btn-primary">Entrar da plataforma</button>
+    </form>
+{% endblock %}

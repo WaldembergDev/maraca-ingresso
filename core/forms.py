@@ -1,6 +1,7 @@
+from dataclasses import fields
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from .models import CustomUser
+from .models import AcessoGeral, CustomUser
 from django.contrib.auth.hashers import check_password
 from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
@@ -33,4 +34,13 @@ class CustomUserForm(forms.ModelForm):
         if password != password2:
             raise ValidationError('As senhas digitadas não são iguais!')
         return cleaned_data
+
+
+class AcessoGeralForm(forms.ModelForm):
+    class Meta:
+        model = AcessoGeral
+        fields = '__all__'
+        widgets = {
+            'senha': forms.PasswordInput(attrs={'class': 'form-control'})
+        }
 

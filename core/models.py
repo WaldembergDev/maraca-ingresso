@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.sessions.models import Session
 
 # Create your models here.
 class MeuUserManager(BaseUserManager):
@@ -48,3 +50,13 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+class AcessoGeral(models.Model):
+    senha = models.CharField(max_length=120)
+
+    def save(self, *args, **kwargs):
+        self.senha = make_password(self.senha)
+        super().save(*args, **kwargs)
+
+    def verificar_senha(self, valor):
+        return check_password(valor, self.senha)

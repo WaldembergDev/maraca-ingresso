@@ -4,9 +4,34 @@ from ingressos.models import Ingresso
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from .forms import EmailAuthenticationForm
+from .forms import EmailAuthenticationForm, AcessoGeralForm
+from .models import AcessoGeral
+
+from django.contrib.auth.hashers import check_password
 
 # Create your views here.
+def acesso_inicial(request):
+    if request.session.get('acesso_geral'):
+        return redirect('home')
+    if request.method == 'POST':
+        form_acesso = AcessoGeralForm(request.POST)
+        if form_acesso.is_valid():
+            senha = form_acesso.cleaned_data.get('senha')
+            senha_acesso = AcessoGeral.objects.order_by('-id').first().senha
+            senha_valida = check_password(senha, senha_acesso)
+            if senha_valida:
+                request.session['acesso_geral'] = senha_acesso
+                return redirect('home')   
+            else:
+                messages.error(request, 'Senha não confere!')     
+    else:
+        form_acesso = AcessoGeralForm()
+    context = {
+        'form_acesso': form_acesso
+    }
+    return render(request, 'core/acesso_inicial.html', context=context)
+
+
 def home(request):
     if request.method == 'GET':
         ingressos = Ingresso.objects.all()
