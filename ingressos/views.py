@@ -113,3 +113,4 @@ def json_detalhes_compra(request, id_historico):
         'quantidade': detalhes.quantidade
     }
     return JsonResponse(dados)
+    

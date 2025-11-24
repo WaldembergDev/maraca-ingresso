@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from .forms import EmailAuthenticationForm, AcessoGeralForm
 from .models import AcessoGeral
+from django.db.models import Q
 
 from django.contrib.auth.hashers import check_password
 
@@ -33,12 +34,18 @@ def acesso_inicial(request):
 
 
 def home(request):
-    if request.method == 'GET':
+    query = request.GET.get('q')
+    if request.GET.get('q'):
+        ingressos = Ingresso.objects.filter(
+            Q(titulo__icontains=query) | Q(descricao__icontains=query)
+        ).distinct()
+    else:
         ingressos = Ingresso.objects.all()
-        context = {
-            'ingressos': ingressos
-        }
-        return render(request, 'core/home.html', context)
+    context = {
+        'ingressos': ingressos,
+        'query': query
+    }
+    return render(request, 'core/home.html', context)
 
 def login(request):
     next = None
