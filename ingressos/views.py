@@ -7,7 +7,7 @@ from django.urls import reverse
 from core.models import CustomUser
 from .models import Ingresso, HistoricoCompra
 from django.shortcuts import get_object_or_404
-from .forms import CompraForm, CadastroIngressoForm
+from .forms import CompraForm, IngressoForm
 from django.contrib import messages
 from clientes.models import Cliente
 
@@ -72,13 +72,13 @@ def visualizar_ingresso(request, id_ingresso):
 @login_required
 def cadastrar_ingresso(request):
     if request.method == 'POST':
-        form = CadastroIngressoForm(request.POST, request.FILES)
+        form = IngressoForm(request.POST, request.FILES, esconder_campo=True)
         if form.is_valid():
             form.save()
             messages.success(request, 'Ingresso cadastrado com sucesso!')
             return redirect('cadastrar_ingresso')
     else:
-        form = CadastroIngressoForm()
+        form = IngressoForm(esconder_campo=True)
     context = {
         'form': form
     }
@@ -116,4 +116,21 @@ def json_detalhes_compra(request, id_historico):
         'quantidade': detalhes.quantidade
     }
     return JsonResponse(dados)
+
+@login_required
+def editar_ingresso(request, id_ingresso):
+    ingresso = get_object_or_404(Ingresso, id=id_ingresso)
+    if request.method == 'POST':
+        form = IngressoForm(request.POST, request.FILES, instance=ingresso)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Dados salvos com sucesso!')
+            return redirect('editar_ingresso', ingresso.id)
+    else:
+        form = IngressoForm(instance=ingresso)
+    context = {
+        'form': form,
+        'ingresso': ingresso
+    }
+    return render(request, 'ingressos/editar_ingresso.html', context=context)
     

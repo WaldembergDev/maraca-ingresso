@@ -18,7 +18,7 @@ class CompraForm(forms.Form):
                 raise forms.ValidationError(f'A quantidade selecionada ({quantidade}) não pode ser superior ao estoque disponível ({self.ingresso.estoque_disponivel}).')
         return cleaned_data
 
-class CadastroIngressoForm(forms.ModelForm):
+class IngressoForm(forms.ModelForm):
     class Meta:
         model = Ingresso
         fields = '__all__'
@@ -28,7 +28,18 @@ class CadastroIngressoForm(forms.ModelForm):
             'titulo': forms.TextInput(attrs = {'class': 'form-control'}),
             'local': forms.TextInput(attrs = {'class': 'form-control'}),
             'descricao': forms.TextInput(attrs= {'class': 'form-control'}),
-            'data_horario': forms.DateTimeInput(attrs = {'type': 'datetime-local', 'class': 'form-control'}),
+            'data_horario': forms.DateTimeInput(attrs = {'type': 'datetime-local', 'class': 'form-control'}, format='%Y-%m-%dT%H:%M'),
             'preco': forms.NumberInput(attrs = {'class': 'form-control', 'step': '0.01'}),
-            'estoque_disponivel': forms.NumberInput(attrs = {'class': 'form-control'})
+            'estoque_disponivel': forms.NumberInput(attrs = {'class': 'form-control'}),
+            'status': forms.Select(attrs= {'class': 'form-select'})
         }
+        labels = {
+            'preco': 'Preço (R$)'
+        }
+
+    def __init__(self, *args, **kwargs):
+        esconder_campo = kwargs.pop('esconder_campo', False)
+        super().__init__(*args, **kwargs)
+
+        if esconder_campo:
+            del self.fields['status']

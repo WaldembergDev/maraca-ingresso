@@ -5,9 +5,15 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Ingresso(models.Model):
+
     class TipoIngresso(models.TextChoices):
         JOGO = 'JOGO', 'Jogo'
         SHOW = 'SHOW', 'Show'
+
+    class StatusIngresso(models.TextChoices):
+        ATIVO = 'ATIVO', 'Ativo'
+        INATIVO = 'INATIVO', 'Inativo'
+
     id = models.UUIDField(
         primary_key=True,
         default=uuid.uuid4,
@@ -21,6 +27,7 @@ class Ingresso(models.Model):
     data_horario = models.DateTimeField()
     preco = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0)])
     estoque_disponivel = models.PositiveSmallIntegerField(default=2)
+    status = models.CharField(max_length=7, choices=StatusIngresso.choices, default=StatusIngresso.ATIVO)
 
     def __str__(self):
         return self.titulo
