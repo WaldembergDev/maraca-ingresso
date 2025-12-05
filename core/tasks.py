@@ -6,12 +6,12 @@ from celery import shared_task
 
 
 @shared_task(name='enviar_notificacao', bind=True)
-def enviar_email_de_confirmacao(self, destinatario, assunto, contexto):
+def enviar_email_de_confirmacao(self, template, destinatario, assunto, contexto):
     # 1. Definir o contexto para o template
     context = contexto
 
     # 2. Renderizar o template HTML para uma string
-    html_content = render_to_string('clientes/emails/email_registro.html', context)
+    html_content = render_to_string(template, context)
     
     # 3. Gerar a versão em texto simples (opcional)
     text_content = strip_tags(html_content) 
