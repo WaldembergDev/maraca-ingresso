@@ -7,6 +7,7 @@ from django.contrib import messages
 from .forms import EmailAuthenticationForm, AcessoGeralForm
 from .models import AcessoGeral
 from django.db.models import Q
+from django.utils import timezone
 
 from django.contrib.auth.hashers import check_password
 
@@ -40,7 +41,8 @@ def home(request):
             Q(titulo__icontains=query) | Q(descricao__icontains=query)
         ).distinct()
     else:
-        ingressos = Ingresso.objects.all()
+        agora = timezone.now()
+        ingressos = Ingresso.objects.filter(data_horario__gte=agora)
     context = {
         'ingressos': ingressos,
         'query': query

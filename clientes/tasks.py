@@ -6,11 +6,9 @@ from celery import shared_task
 
 
 @shared_task(bind=True)
-def enviar_email_confirmacao_cadastro(self, destinatario_email, nome_usuario):
+def enviar_email_confirmacao_cadastro(self, destinatario, assunto, contexto):
     # 1. Definir o contexto para o template
-    context = {
-        'nome_usuario': nome_usuario,
-    }
+    context = contexto
 
     # 2. Renderizar o template HTML para uma string
     html_content = render_to_string('clientes/emails/email_registro.html', context)
@@ -21,13 +19,13 @@ def enviar_email_confirmacao_cadastro(self, destinatario_email, nome_usuario):
     # 4. Criar a mensagem de e-mail usando EmailMultiAlternatives
     email = EmailMultiAlternatives(
         # Assunto
-        'Confirmação de Cadastro',
+        assunto,
         # Conteúdo em texto simples
         text_content,
         # Remetente 
         settings.EMAIL_HOST_USER,
         # Destinatários
-        [destinatario_email],
+        [destinatario],
     )
 
     # 5. Anexar a versão HTML
