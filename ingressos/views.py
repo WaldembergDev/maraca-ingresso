@@ -45,7 +45,8 @@ def comprar_ingresso(request, id_ingresso):
                         titulo=ingresso_travado.titulo,
                         local=ingresso_travado.local,
                         valor_pago=ingresso_travado.preco,
-                        quantidade=quantidade
+                        quantidade=quantidade,
+                        data_horario_evento=ingresso_travado.data_horario
                         )
                     messages.success(request, 'Obrigado! Seu ingresso foi comprado com sucesso! Aguarde o contato do administrador')
                     return redirect('home')
