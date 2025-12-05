@@ -5,8 +5,8 @@ from django.conf import settings
 from celery import shared_task
 
 
-@shared_task(bind=True)
-def enviar_email_confirmacao_cadastro(self, destinatario, assunto, contexto):
+@shared_task(name='enviar_notificacao', bind=True)
+def enviar_email_de_confirmacao(self, destinatario, assunto, contexto):
     # 1. Definir o contexto para o template
     context = contexto
 
